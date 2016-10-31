@@ -1,9 +1,23 @@
 package com.piggg.oa.core;
-
+//今天是2016-10-31,必须把这个类完成
 public class SqlHelper {
 
+//	int Add(T)
+//	bool Add(List<T>)
+	
+//	model Get(long id)
+//	List<model> Get(List<WhereFields>, List<OrderFields>, int top)
+//	ResultSet Get(List<ShowFields>, List<WhereFields>, List<OrderFields>,int top)
+	
+//	Update(T)
+//	Update(int top, List<UpdateFields>, List<WhereFields>, List<OrderFields>)
+//	
+	
+//	delete(id)
+	
+	
 	/**
-	 * get sql for add a entity
+	 * get SQL for add a entity
 	 * @param t
 	 * @param dataBaseName
 	 */
