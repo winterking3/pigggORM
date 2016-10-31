@@ -26,25 +26,41 @@ public class SqlHelper {
 	 * @param t
 	 * @param tableName
 	 */
-	public static <T> void Add(T t, String tableName)
+	public static <T> String getSqlForInsert(T t, String baseTableName)
 	{
 		String sql = new String();
 		String strFields = new String();
 		String strValues = new String();
-		List<TableColumnModel> columnList = DBHelper.getTableColumn(tableName);
+		List<TableColumnModel> columnList = DBHelper.getTableColumn(baseTableName);
 		Map<String, Object> fieldsMap = EntityHelper.getEntityAttributeAndValue(t);
-		if (!fieldsMap.isEmpty())
+		
+		
+		if(!columnList.isEmpty() && !fieldsMap.isEmpty())
 		{
-			for (Map.Entry<String, Object> entry : fieldsMap.entrySet())
+			for(TableColumnModel column : columnList)
 			{
-				String fieldName = entry.getKey().toUpperCase();
-
-				
+				if(column != null && column.isAutoIncrement() == false && fieldsMap.containsKey(column.getColumnName().toUpperCase()))
+				{
+					strFields += (column.getColumnName() + ",");
+					strValues += ("?,");
+				}
+			}
+			strFields = strFields.substring(0, strFields.length()-1);
+			strValues = strValues.substring(0, strValues.length()-1);
+			if(!strFields.isEmpty() && !strValues.isEmpty())
+			{
+				sql += "insert into (" + strFields + ") values (" + strValues + ")";
 			}
 		}
-
-		sql += "insert into " + tableName;
-
+		return sql;
+	}
+	
+	
+	public static <T> String getSqlForSelectByID(int id, String baseTableName)
+	{
+		String sql = new String();
+		
+		return sql;
 	}
 	
 
