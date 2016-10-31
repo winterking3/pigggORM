@@ -9,6 +9,6 @@ public class test {
 	{
 		UserEntity user = new UserEntity();
 		EntityHelper.getEntityAttributeAndValue(user);
-		DBHelper.getTableColumn("piggg","user");
+		DBHelper.getTableColumn("piggg.user");
 	}
 }

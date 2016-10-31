@@ -1,4 +1,10 @@
 package com.piggg.oa.core;
+
+import java.util.List;
+import java.util.Map;
+
+import com.piggg.oa.model.viewModel.TableColumnModel;
+
 //今天是2016-10-31,必须把这个类完成
 public class SqlHelper {
 
@@ -15,18 +21,34 @@ public class SqlHelper {
 	
 //	delete(id)
 	
-	
 	/**
 	 * get SQL for add a entity
 	 * @param t
-	 * @param dataBaseName
+	 * @param tableName
 	 */
-	public static <T> void Add(T t, String dataBaseName)
+	public static <T> void Add(T t, String tableName)
 	{
 		String sql = new String();
-		Class<?> className = t.getClass();
-		
+		String strFields = new String();
+		String strValues = new String();
+		List<TableColumnModel> columnList = DBHelper.getTableColumn(tableName);
+		Map<String, Object> fieldsMap = EntityHelper.getEntityAttributeAndValue(t);
+		if (!fieldsMap.isEmpty())
+		{
+			for (Map.Entry<String, Object> entry : fieldsMap.entrySet())
+			{
+				String fieldName = entry.getKey().toUpperCase();
+
+				
+			}
+		}
+
+		sql += "insert into " + tableName;
+
 	}
+	
+
+	
 }
 
 

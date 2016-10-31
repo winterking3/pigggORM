@@ -52,21 +52,36 @@ public class DBHelper {
 	
 	/**
 	 * get table's key column
-	 * @param dbName
-	 * @param tableName
+	 * @param baseTableName
 	 * @return
 	 */
-	public static List<String> getKeyColumnName(String dbName, String tableName)
+	public static List<String> getKeyColumnName(String baseTableName)
 	{
-		List<String> keyNameList = new ArrayList<String>();;
+		String dbName = new String();
+		String tableName = new String();
+		String[] names = baseTableName.split(".");
+		if (names != null && names.length == 2)
+		{
+			dbName = names[0];
+			tableName = names[1];
+		}
+		if (dbName.isEmpty() || tableName.isEmpty())
+		{
+			return null;
+		}
+		
+		List<String> keyNameList = new ArrayList<String>();
 		Connection conn = getConnectionByDatabaseName(dbName);
-		try {
+		try
+		{
 			DatabaseMetaData dbMetaData = conn.getMetaData();
 			ResultSet pkRS = dbMetaData.getPrimaryKeys(null, null, tableName);
-		    while(pkRS.next()){
-		    	keyNameList.add((String)pkRS.getObject("COLUMN_NAME"));
-		    }
-		} catch (SQLException e) {
+			while (pkRS.next())
+			{
+				keyNameList.add((String) pkRS.getObject("COLUMN_NAME"));
+			}
+		} catch (SQLException e)
+		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -75,13 +90,25 @@ public class DBHelper {
 	
 	/**
 	 * get table's meta data
-	 * @param dbName
-	 * @param tableName
+	 * @param baseTableName
 	 * @return
 	 * @throws SQLException 
 	 */
-	public static ResultSetMetaData getResultSetMetaData(String dbName, String tableName)
+	public static ResultSetMetaData getResultSetMetaData(String baseTableName)
 	{
+		String dbName = new String();
+		String tableName = new String();
+		String[] names = baseTableName.split(".");
+		if (names != null && names.length == 2)
+		{
+			dbName = names[0];
+			tableName = names[1];
+		}
+		if(dbName.isEmpty() || tableName.isEmpty())
+		{
+			return null;
+		}
+		
 		Connection conn = getConnectionByDatabaseName(dbName);
 		String sql = "SELECT * FROM " + tableName.toUpperCase() + " WHERE 1 != 1";  
 		PreparedStatement pst = null;
@@ -127,7 +154,6 @@ public class DBHelper {
 					tableColumnInfo.setNullable(metaData.isNullable(columnNo));
 					tableColumnInfo.setPrecision(metaData.getPrecision(columnNo));
 					tableColumnInfo.setScale(metaData.getScale(columnNo));
-
 					columnInfoList.add(tableColumnInfo);
 				}
 			}
@@ -144,8 +170,8 @@ public class DBHelper {
 	 * @param tableName
 	 * @return
 	 */
-	public static List<TableColumnModel> getTableColumn(String dbName, String tableName) {
-		ResultSetMetaData metaData = getResultSetMetaData(dbName, tableName);
+	public static List<TableColumnModel> getTableColumn(String baseTableName) {
+		ResultSetMetaData metaData = getResultSetMetaData(baseTableName);
 		List<TableColumnModel> columnList = getTableColumnByMetaData(metaData);
 		return columnList;
 	}
@@ -153,17 +179,17 @@ public class DBHelper {
 	
 	/**
 	 * check entity's attributes with table's columns
-	 * @param dbName
-	 * @param tableName
+	 * @param baseTableName
 	 * @param t
 	 * @return
 	 */
-	public static <T> boolean checkEntityWithTable(String dbName, String tableName, T t) {
+	public static <T> boolean checkEntityWithTable(String baseTableName, T t) {
 		boolean ifOk = false;
-		if (dbName.isEmpty() || tableName.isEmpty() || t == null) {
+		if (baseTableName.isEmpty() || t == null) {
 			return ifOk;
 		}
-		List<TableColumnModel> columnList = getTableColumn(dbName, tableName);
+		List<TableColumnModel> columnList = getTableColumn(baseTableName);
+		
 		if (columnList != null && !columnList.isEmpty()) {
 			Map<String, String> map = EntityHelper.getEntityAttributeAndType(t);
 			if (!map.isEmpty()) {

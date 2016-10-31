@@ -13,11 +13,13 @@ public class EntityHelper {
 	 * @param t
 	 * @return
 	 */
-	public static <T> Map<String, String> getEntityAttributeAndType(T t) {
+	public static <T> Map<String, String> getEntityAttributeAndType(T t)
+	{
 		Map<String, String> map = new HashMap<String, String>();
 		Class<? extends Object> thisClass = t.getClass();
 		Field[] fieldArr = thisClass.getDeclaredFields();
-		for (Field field : fieldArr) {
+		for (Field field : fieldArr)
+		{
 			field.setAccessible(true);
 			map.put(field.getName().toUpperCase(), field.getType().getSimpleName());
 		}
@@ -29,25 +31,30 @@ public class EntityHelper {
 	 * @param t
 	 * @return
 	 */
-	public static <T> Map<String, Object> getEntityAttributeAndValue(T t){
+	public static <T> Map<String, Object> getEntityAttributeAndValue(T t)
+	{
 		Map<String, Object> map = new HashMap<String, Object>();
 		Class<? extends Object> thisClass = t.getClass();
 		Method[] methodArr = thisClass.getDeclaredMethods();
-		if(methodArr != null && methodArr.length > 0)
+		if (methodArr != null && methodArr.length > 0)
 		{
-			for(Method method : methodArr)
+			for (Method method : methodArr)
 			{
-				if(method.getName().startsWith("get") && !method.getName().equals("getClass"))
+				if (method.getName().startsWith("get") && !method.getName().equals("getClass"))
 				{
-					try {
+					try
+					{
 						map.put(method.getName().substring(3).toUpperCase(), method.invoke(t));
-					} catch (IllegalAccessException e) {
+					} catch (IllegalAccessException e)
+					{
 						// TODO Auto-generated catch block
 						e.printStackTrace();
-					} catch (IllegalArgumentException e) {
+					} catch (IllegalArgumentException e)
+					{
 						// TODO Auto-generated catch block
 						e.printStackTrace();
-					} catch (InvocationTargetException e) {
+					} catch (InvocationTargetException e)
+					{
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
