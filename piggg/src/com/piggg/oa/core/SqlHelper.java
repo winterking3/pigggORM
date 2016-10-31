@@ -34,7 +34,6 @@ public class SqlHelper {
 		List<TableColumnModel> columnList = DBHelper.getTableColumn(baseTableName);
 		Map<String, Object> fieldsMap = EntityHelper.getEntityAttributeAndValue(t);
 		
-		
 		if(!columnList.isEmpty() && !fieldsMap.isEmpty())
 		{
 			for(TableColumnModel column : columnList)
@@ -55,11 +54,34 @@ public class SqlHelper {
 		return sql;
 	}
 	
-	
-	public static <T> String getSqlForSelectByID(int id, String baseTableName)
+	/**
+	 * get SQL for select by id
+	 * @param baseTableName
+	 * @return
+	 */
+	public static String getSqlForSelectByID(String baseTableName)
 	{
 		String sql = new String();
+		List<TableColumnModel> columnList = DBHelper.getTableColumn(baseTableName);
+		List<String> keyColumnNameList = DBHelper.getKeyColumnName(baseTableName);
+		if(!columnList.isEmpty() && !keyColumnNameList.isEmpty() && keyColumnNameList.size() == 1)
+		{
+			String keyName = keyColumnNameList.get(0);
+			sql += "select * from " + baseTableName + " with(nolock) where " + keyName + "= ?";		
+		}
+		return sql;
+	}
+	
+	public static <T> String getSqlForUpdate(T t, String baseTableName)
+	{
+		String sql = new String();
+		List<String> keyColumnNameList = DBHelper.getKeyColumnName(baseTableName);
 		
+		if(!keyColumnNameList.isEmpty() && keyColumnNameList.size() == 1)
+		{
+			String keyName = keyColumnNameList.get(0);
+			
+		}
 		return sql;
 	}
 	
