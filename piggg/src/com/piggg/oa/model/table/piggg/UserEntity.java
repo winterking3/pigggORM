@@ -1,42 +1,76 @@
-//用户实体Model
 package com.piggg.oa.model.table.piggg;
 
 /**
  * @author wd07098
- *用户实体
+ *
  */
+@EntityMeta(tableName = "user", primaryKey="ID")
 public class UserEntity {
-	
-	@FieldMeta(isKey=true,autoIncrement=true,description="主键ID")  
+	@FieldMeta(isAutoIncrement = true)
 	private int id = 0;
 	
-	@FieldMeta(description="姓名",length=45) 
-	private String name = "";
-	
-	@FieldMeta(description="工号",length=20) 
 	private String jobNumber = "";
 	
-	public int getId() {
+	private String name = "";
+
+	private String nikeName = "";
+	
+	private byte sex = 0;
+	
+	private byte married = 0;
+
+	public int getId()
+	{
 		return id;
 	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getJobNumber() {
+	public String getJobNumber()
+	{
 		return jobNumber;
 	}
 
-	public void setJobNumber(String jobNumber) {
+	public void setJobNumber(String jobNumber)
+	{
 		this.jobNumber = jobNumber;
+	}
+
+	public String getName()
+	{
+		return name;
+	}
+
+	public void setName(String name)
+	{
+		this.name = name;
+	}
+
+	public String getNikeName()
+	{
+		return nikeName;
+	}
+
+	public void setNikeName(String nikeName)
+	{
+		this.nikeName = nikeName;
+	}
+
+	public byte getSex()
+	{
+		return sex;
+	}
+
+	public void setSex(byte sex)
+	{
+		this.sex = sex;
+	}
+
+	public byte getMarried()
+	{
+		return married;
+	}
+
+	public void setMarried(byte married)
+	{
+		this.married = married;
 	}
 }
