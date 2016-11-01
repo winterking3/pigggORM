@@ -8,7 +8,6 @@ public class test {
 	public static void main(String[] args)
 	{
 		UserEntity user = new UserEntity();
-		EntityHelper.getEntityAttributeAndValue(user);
-		DBHelper.getTableColumn("piggg.user");
+		EntityHelper.getPrimaryKey(user);
 	}
 }

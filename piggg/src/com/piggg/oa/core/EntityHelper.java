@@ -6,8 +6,54 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.piggg.oa.model.table.piggg.EntityMeta;
+
 public class EntityHelper {
 
+	/**
+	 * get table's name
+	 * @param t
+	 * @return
+	 */
+	public static <T> String getTableName(T t)
+	{
+		String tableName = new String();
+		EntityMeta entityMeta = getEntityMeta(t);
+		if(entityMeta != null)
+		{
+			tableName = entityMeta.tableName();
+		}
+		return tableName;
+	}
+	
+	/**
+	 * get table's primary key
+	 * @param t
+	 * @return
+	 */
+	public static <T> String getPrimaryKey(T t)
+	{
+		String primaryKey = new String();
+		EntityMeta entityMeta = getEntityMeta(t);
+		if(entityMeta != null)
+		{
+			primaryKey = entityMeta.primaryKey();
+		}
+		return primaryKey;
+	}
+	
+	/**
+	 * get entity's annotations
+	 * @param t
+	 * @return
+	 */
+	public static <T> EntityMeta getEntityMeta(T t)
+	{
+		Class<?> thisClass = t.getClass();
+		EntityMeta entityMeta = thisClass.getAnnotation(EntityMeta.class);
+		return entityMeta;
+	}
+	
 	/**
 	 * get entity's attributes and types
 	 * @param t

@@ -14,4 +14,6 @@ public @interface EntityMeta
 	String tableName() default "";
 	
 	String primaryKey() default "";
+	
+    boolean isPKAtuo() default false;
 }
