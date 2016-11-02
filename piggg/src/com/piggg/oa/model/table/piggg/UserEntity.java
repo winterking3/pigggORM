@@ -4,7 +4,7 @@ package com.piggg.oa.model.table.piggg;
  * @author wd07098
  *
  */
-//@EntityMeta(tableName = "user", primaryKey="ID")
+@EntityMeta(tableName = "user", primaryKey = "ID", isPKAtuo = true)
 public class UserEntity {
 	@FieldMeta(isAutoIncrement = true)
 	private int id = 0;

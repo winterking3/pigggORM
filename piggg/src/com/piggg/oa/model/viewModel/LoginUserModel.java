@@ -1,25 +1,21 @@
 package com.piggg.oa.model.viewModel;
 
 public class LoginUserModel {
-	//工号
+
 	private String jobNumber;
 	
-	//姓名
+
 	private String Name;
 	
-	//部门ID
+
 	private String DepartmentID;
 	
-	//部门名称
 	private String DepartmentName;
 	
-	//手机号
 	private String Mobile;
 	
-	//邮箱
 	private String Email;
 	
-	//性别
 	private int Gender;
 	
 	public String getJobNumber() {

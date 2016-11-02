@@ -2,7 +2,7 @@ package com.piggg.oa.core;
 
 import java.util.List;
 import java.util.Map;
-
+import com.piggg.oa.model.table.piggg.EntityMeta;
 import com.piggg.oa.model.viewModel.TableColumnModel;
 
 //今天是2016-10-31,必须把这个类完成
@@ -26,33 +26,45 @@ public class SqlHelper {
 	 * @param t
 	 * @param tableName
 	 */
-	public static <T> String getSqlForInsert(T t, String baseTableName)
+	public static <T> String getSqlForInsert(T t)
 	{
 		String sql = new String();
 		String strFields = new String();
 		String strValues = new String();
-		List<TableColumnModel> columnList = DBHelper.getTableColumn(baseTableName);
-		Map<String, Object> fieldsMap = EntityHelper.getEntityAttributeAndValue(t);
+		String tableName = new String();
+		String primaryKey = new String();
+		boolean isAutoIncrement = false; 
 		
-		if(!columnList.isEmpty() && !fieldsMap.isEmpty())
+		EntityMeta entityMeta = EntityHelper.getEntityMeta(t);
+		if(entityMeta != null)
 		{
-			for(TableColumnModel column : columnList)
+			tableName = entityMeta.tableName();
+			primaryKey = entityMeta.primaryKey();
+			isAutoIncrement = entityMeta.isPKAtuo();
+		}
+		
+		if (!tableName.isEmpty())
+		{
+			Map<String, String> fieldsMap = EntityHelper.getEntityAttributeAndType(t);
+			for (String fieldName : fieldsMap.keySet())
 			{
-				if(column != null && column.isAutoIncrement() == false && fieldsMap.containsKey(column.getColumnName().toUpperCase()))
+				if (!(fieldName.toUpperCase().equals(primaryKey.toUpperCase()) && isAutoIncrement))
 				{
-					strFields += (column.getColumnName() + ",");
+					strFields += (fieldName + ",");
 					strValues += ("?,");
 				}
 			}
-			strFields = strFields.substring(0, strFields.length()-1);
-			strValues = strValues.substring(0, strValues.length()-1);
-			if(!strFields.isEmpty() && !strValues.isEmpty())
+			strFields = strFields.substring(0, strFields.length() - 1);
+			strValues = strValues.substring(0, strValues.length() - 1);
+			// 拼接SQL语句
+			if (!strFields.isEmpty() && !strValues.isEmpty())
 			{
-				sql += "insert into (" + strFields + ") values (" + strValues + ")";
+				sql += "insert into " + tableName + "(" + strFields + ") values (" + strValues + ")";
 			}
 		}
 		return sql;
 	}
+	
 	
 	/**
 	 * get SQL for select by id
